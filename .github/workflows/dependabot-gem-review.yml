@@ -31,7 +31,7 @@ jobs:
           bundler-cache: false
 
       - name: Generate dependency review comment
-        run: ruby .github/scripts/gem_diff.rb
+        run: ruby .github/scripts/gem_diff.rb > gem_review.md
 
       - name: Ensure comment file exists
         run: |
