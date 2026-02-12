@@ -1,0 +1,3 @@
+{
+  "extends": ["github>Codename-shaShank/renovate-config//default.json"]
+}

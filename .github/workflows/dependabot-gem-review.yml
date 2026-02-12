@@ -1,0 +1,35 @@
+name: Dependabot Gem Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - "Gemfile"
+      - "Gemfile.lock"
+
+jobs:
+  review-gems:
+    # Only run for Dependabot PRs
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # we need history to read base Gemfile.lock
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"   # or your repo's Ruby version
+          bundler-cache: false
+
+      - name: Generate dependency review comment
+        run: ruby .github/scripts/gem_diff.rb
+
+      - name: Comment on PR with dependency summary
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: gem_review.md
