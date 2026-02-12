@@ -16,6 +16,8 @@ jobs:
   review-gems:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+    env:
+      GEM_REVIEW_PATH: gem_review.md
 
     steps:
       - name: Checkout PR head
