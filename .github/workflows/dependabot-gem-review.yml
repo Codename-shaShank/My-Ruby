@@ -33,8 +33,15 @@ jobs:
       - name: Generate dependency review comment
         run: ruby .github/scripts/gem_diff.rb
 
+      - name: Ensure comment file exists
+        run: |
+          if [ ! -s gem_review.md ]; then
+            echo "No dependency changes to report." > gem_review.md
+          fi
+
       - name: Comment on PR with dependency summary
         uses: peter-evans/create-or-update-comment@v4
         with:
+          token: ${{ github.token }}
           issue-number: ${{ github.event.pull_request.number }}
           body-file: gem_review.md
