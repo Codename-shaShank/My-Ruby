@@ -129,7 +129,7 @@ direct, transitive = changes.partition { |c| (c[:groups] & ["runtime", "developm
 
 markdown = +"## Dependency change summary\n\n"
 markdown << "Base branch: `#{BASE_REF}`\n\n"
-markdown << "This PR updates the resolved gem set based on changes in `Gemfile` / `Gemfile.lock`.\n\n"
+markdown << "This PR updates the resolved gem set based on changes in `Gemfile` / `Gemfile.lock` (and related gemspec changes, if any).\n\n"
 
 [["Direct dependencies (from Gemfile)", direct],
  ["Transitive / stdlib gems (from Gemfile.lock only)", transitive]].each do |title, list|

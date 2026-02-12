@@ -1,4 +1,4 @@
-name: Dependabot Gem Review
+name: Gem Upgrade Review
 
 on:
   pull_request_target:
@@ -6,6 +6,7 @@ on:
     paths:
       - "Gemfile"
       - "Gemfile.lock"
+      - "*.gemspec"
 
 permissions:
   contents: read
