@@ -39,6 +39,14 @@ jobs:
             echo "No dependency changes to report." > gem_review.md
           fi
 
+      - name: Check gem_review.md exists
+        run: |
+          if [ ! -f gem_review.md ]; then
+            echo "gem_review.md not found"
+            exit 1
+          fi
+          echo "gem_review.md exists and contains $(wc -c < gem_review.md) bytes"
+
       - name: Comment on PR with dependency summary
         uses: peter-evans/create-or-update-comment@v4
         with:
