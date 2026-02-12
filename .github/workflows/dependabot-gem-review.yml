@@ -17,6 +17,8 @@ jobs:
     # Only run for Dependabot PRs
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+    env:
+      GEM_REVIEW_PATH: ${{ github.workspace }}/gem_review.md
 
     steps:
       - name: Checkout
@@ -35,10 +37,10 @@ jobs:
 
       - name: Verify gem_review.md exists
         run: |
-          test -f gem_review.md
-          test -s gem_review.md
+          test -f "$GEM_REVIEW_PATH"
+          test -s "$GEM_REVIEW_PATH"
           echo "=== gem_review.md contents ==="
-          cat gem_review.md
+          cat "$GEM_REVIEW_PATH"
           echo "=== end ==="
 
       - name: Comment on PR with dependency summary
@@ -47,4 +49,4 @@ jobs:
         with:
           token: ${{ github.token }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: gem_review.md
+          body-file: ${{ env.GEM_REVIEW_PATH }}
