@@ -31,21 +31,12 @@ jobs:
           bundler-cache: false
 
       - name: Generate dependency review comment
-        run: ruby .github/scripts/gem_diff.rb > gem_review.md
+        run: ruby .github/scripts/gem_diff.rb
 
-      - name: Ensure comment file exists
+      - name: Verify gem_review.md exists
         run: |
-          if [ ! -s gem_review.md ]; then
-            echo "No dependency changes to report." > gem_review.md
-          fi
-
-      - name: Check gem_review.md exists
-        run: |
-          if [ ! -f gem_review.md ]; then
-            echo "gem_review.md not found"
-            exit 1
-          fi
-          echo "gem_review.md exists and contains $(wc -c < gem_review.md) bytes"
+          test -f gem_review.md
+          test -s gem_review.md
 
       - name: Comment on PR with dependency summary
         uses: peter-evans/create-or-update-comment@v4
