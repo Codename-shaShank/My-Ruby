@@ -37,8 +37,7 @@ jobs:
         run: |
           git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-branch
           git show pr-branch:Gemfile.lock > pr_gemfile.lock
-        env:
-          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
 
       - name: Generate dependency review comment
         run: ruby .github/scripts/gem_diff.rb
