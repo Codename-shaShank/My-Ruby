@@ -67,7 +67,12 @@ base_lock_content = fetch_base_lockfile
 
 # Read PR Gemfile.lock from safe path provided by workflow
 pr_lockfile_path = ENV["PR_GEMFILE_LOCK_PATH"] || "Gemfile.lock"
-new_lock_content  = File.read(pr_lockfile_path)
+begin
+  new_lock_content = File.read(pr_lockfile_path)
+rescue Errno::ENOENT, Errno::EACCES => e
+  warn "Could not read #{pr_lockfile_path}: #{e.message}. Skipping review."
+  exit 0
+end
 
 base_lock = parse_lock(base_lock_content)
 new_lock  = parse_lock(new_lock_content)
